@@ -39,33 +39,51 @@ class CustomerDetailAPIView(APIView):
     @extend_schema(
         summary="Get a customer",
         description="Get a customer by ID",
-        responses={200: CustomerSerializer}
+        responses={
+            200: CustomerSerializer,
+            404: None
+        }
     )
     def get(self, request, id):
-        customer = Customer.objects.get(pk=id)
-        serializer = CustomerSerializer(customer)
-        return Response(serializer.data)
+        try:
+            customer = Customer.objects.get(pk=id)
+            serializer = CustomerSerializer(customer)
+            return Response(serializer.data)
+        except Customer.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @extend_schema(
         summary="Update a customer",
         description="Update a customer by ID",
         request=CustomerSerializer,
-        responses={200: CustomerSerializer}
+        responses={
+            200: CustomerSerializer,
+            404: None
+        }
     )
     def put(self, request, id):
-        customer = Customer.objects.get(pk=id)
-        serializer = CustomerSerializer(customer, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            customer = Customer.objects.get(pk=id)
+            serializer = CustomerSerializer(customer, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Customer.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @extend_schema(
         summary="Delete a customer",
         description="Delete a customer by ID",
-        responses={204: None}
+        responses={
+            204: None,
+            404: None
+        }
     )
     def delete(self, request, id):
-        customer = Customer.objects.get(pk=id)
-        customer.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+            customer = Customer.objects.get(pk=id)
+            customer.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Customer.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
