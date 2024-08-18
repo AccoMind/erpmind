@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-a*g!84zz9cs=)x#iqq72m$@3d)3_%)k62qas%vewtkx8pg(19m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'erpmind.onrender.com'
+]
 
 
 # Application definition
