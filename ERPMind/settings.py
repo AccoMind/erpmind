@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-a*g!84zz9cs=)x#iqq72m$@3d)3_%)k62qas%vewtkx8pg(19m
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'erpmind.onrender.com'
+    'erpmind.onrender.com',
+    'erpmind-sqlv.onrender.com'
 ]
 
 
